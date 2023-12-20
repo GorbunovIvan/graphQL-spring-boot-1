@@ -12,6 +12,9 @@ import org.springframework.graphql.execution.RuntimeWiringConfigurer;
  * {
  *   customers {
  *     name
+ *     profile {
+ *       id
+ *     }
  *   }
  * }
  * </p>
@@ -20,6 +23,9 @@ import org.springframework.graphql.execution.RuntimeWiringConfigurer;
  *   customerById(id:2) {
  *     id
  *     name
+ *     profile {
+ *       id
+ *     }
  *   }
  * }
  * </p>
@@ -33,6 +39,10 @@ public class GraphQLConfig {
     @Bean
     public RuntimeWiringConfigurer runtimeWiringConfigurer(CustomerService customerService) {
         return builder -> {
+
+            builder.type("Customer", wiring -> wiring
+                    .dataFetcher("profile", environment -> customerService.getProfileFor(environment.getSource())));
+
             builder.type("Query", wiring -> wiring
                     .dataFetcher("customers", environment -> customerService.getAll())
                     .dataFetcher("customerById", environment -> customerService.getById(environment.getArgument("id"))));

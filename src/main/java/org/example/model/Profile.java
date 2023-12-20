@@ -6,8 +6,7 @@ import lombok.*;
 @Getter @Setter
 @EqualsAndHashCode
 @ToString
-public class Customer {
+public class Profile {
     private Integer id;
-    private String name;
-    private Profile profile;
+    private Integer customerId;
 }
